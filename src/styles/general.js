@@ -8,6 +8,8 @@ const general = {
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   section: {
     margin: metrics.doubleBaseMargin,
