@@ -1,20 +1,27 @@
 import React from 'react';
+
+import styles from './style';
+
 import {
   AsyncStorage,
-  Button,
-  StyleSheet,
-  View,
+  Keyboard,
   Image,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Alert,
   KeyboardAvoidingView,
+  Linking,
 } from 'react-native';
 
-import LoginForm from '../../components/loginform';
+import {Button, Input} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // import PasswordInputText from 'react-native-hide-show-password-input';
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
-    title: 'Please sign in',
+    header: null,
   };
 
   state = {
@@ -23,18 +30,51 @@ export default class SignInScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.loginContainer}>
-          <Image
-            source={require('../../images/logo.png')}
-            resizeMode="contain"
-            style={styles.logo}
-          />
-        </View>
-        <View style={styles.formContainer}>
-          <LoginForm />
-        </View>
-        <Button title="Sign in!" onPress={this._signInAsync} />
+      <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.loginScreenContainer}>
+            <View style={styles.loginFormView}>
+              <Image
+                resizeMode="contain"
+                style={styles.imageLogo}
+                source={require('../../images/logo.png')}
+              />
+              <Input
+                placeholder="Odoo URL"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                leftIcon={<Icon name="home" style={styles.icon} />}
+              />
+              <Input
+                placeholder="Username"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                leftIcon={<Icon name="user" style={styles.icon} />}
+              />
+              <Input
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+                leftIcon={<Icon name="key" style={styles.icon} />}
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this._signInAsync()}
+                title="Login"
+              />
+              <Button
+                buttonStyle={styles.authorButton}
+                onPress={() => {
+                  Linking.openURL('https://odoo-community.org');
+                }}
+                type="clear"
+                title="Odoo Community Association"
+                color="#3897f1"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
   }
@@ -44,20 +84,3 @@ export default class SignInScreen extends React.Component {
     this.props.navigation.navigate('App');
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9F9F9',
-  },
-  loginContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexGrow: 1,
-  },
-  logo: {
-    position: 'absolute',
-    width: 300,
-    height: 100,
-  },
-});
