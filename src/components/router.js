@@ -7,8 +7,8 @@ import HomeScreen from '../pages/home';
 import Odoo from '../pages/odoo';
 import AuthLoadingScreen from './auth';
 
-const AppStack = createStackNavigator({Home: HomeScreen, Other: Odoo});
 const AuthStack = createStackNavigator({SignIn: SignInScreen});
+const AppStack = createStackNavigator({Home: HomeScreen, Other: Odoo});
 
 export const AppNavigator = createSwitchNavigator(
   {
