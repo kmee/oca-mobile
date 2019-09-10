@@ -59,4 +59,13 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image_badge: {
+    width: 50,
+    height: 50,
+    justifyContent: 'flex-start',
+  },
+  text_badge: {
+    marginBottom: 10,
+    justifyContent: 'flex-end',
+  },
 };
