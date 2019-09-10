@@ -6,7 +6,10 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+
 import Odoo from 'react-native-odoo-promise-based';
+
+import styles from './style';
 
 export default class AuthLoadingScreen extends React.Component {
   constructor() {
@@ -58,11 +61,3 @@ export default class AuthLoadingScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
