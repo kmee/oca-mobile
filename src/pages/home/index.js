@@ -24,7 +24,6 @@ export default class HomeScreen extends React.Component {
     var user_name = await AsyncStorage.getItem('user_display_name');
     var image_small = await AsyncStorage.getItem('image_small');
     var db = await AsyncStorage.getItem('database');
-    console.log(image_small);
     this.setState({
       server: server,
       user_name: user_name,
