@@ -1,31 +1,41 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
+
+import {ActivityIndicator, AsyncStorage, StyleSheet} from 'react-native';
 import {WebView} from 'react-native-webview';
+
+import styles from './style';
 
 export default class OdooBackend extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      url: undefined,
-    };
+    this.state = {};
   }
+
+  async componentDidMount() {
+    var url = await AsyncStorage.getItem('last_url');
+    if (url === 'about:blank' || typeof url === 'undefined') {
+      url = await AsyncStorage.getItem('server_backend_url');
+    }
+    this.setState({url: url});
+  }
+
+  // componentDidMount() {
+  //   console.log('Componentem montou');
+  // }
 
   _onNavigationStateChange(webViewState) {
     AsyncStorage.setItem('last_url', webViewState.url);
   }
 
-  componentDidMount() {
-    AsyncStorage.getItem('last_url').then(value => {
-      if (value !== undefined) {
-        this.state({
-          url: value,
-        });
-      } else {
-        this.state({
-          url: AsyncStorage.getItem('server_backend_url'),
-        });
-      }
-    });
+  ActivityIndicatorLoadingView() {
+    //making a view to show to while loading the webpage
+    return (
+      <ActivityIndicator
+        color="#009688"
+        size="large"
+        style={styles.ActivityIndicatorStyle}
+      />
+    );
   }
 
   render() {
@@ -36,7 +46,8 @@ export default class OdooBackend extends React.Component {
         javaScriptEnabled={true}
         domStorageEnabled={true}
         injectedJavaScript={this.state.cookie}
-        startInLoadingState={false}
+        startInLoadingState={true}
+        renderLoading={this.ActivityIndicatorLoadingView}
       />
     );
   }
