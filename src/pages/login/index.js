@@ -134,6 +134,23 @@ export default class SignInScreen extends React.Component {
       .connect()
       .then(response => {
         AsyncStorage.setItem('userToken', response.data.session_id);
+        AsyncStorage.setItem('user_display_name', response.data.name);
+        AsyncStorage.setItem('user_uid', response.data.uid);
+        AsyncStorage.setItem('database', response.data.db);
+        console.log(response.data);
+        odoo
+          .get('res.users', {
+            ids: [response.data.uid],
+            fields: ['image_small'],
+          })
+          .then(response_image => {
+            AsyncStorage.setItem(
+              'image_small',
+              response_image.data[0].image_small,
+            );
+            console.log(response_image.data[0].image_small);
+          })
+          .catch(e => {});
       })
       .catch(e => {
         console.log(e);
@@ -143,6 +160,6 @@ export default class SignInScreen extends React.Component {
       'server_backend_url',
       this.state.server + '/web',
     );
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('App', {url: this.state.server + '/web'});
   };
 }
