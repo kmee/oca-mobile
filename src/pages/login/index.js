@@ -73,8 +73,8 @@ export default class SignInScreen extends React.Component {
                 placeholder="Password"
                 placeholderColor="#c4c3cb"
                 value={this.state.password}
-                onChangeText={this.handleUserChange}
-                style={styles.handlePasswordChange}
+                onChangeText={this.handlePasswordChange}
+                style={styles.loginFormTextInput}
                 secureTextEntry={true}
                 autoCapitalize="none"
                 autoCorrect={false}
