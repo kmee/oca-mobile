@@ -21,16 +21,6 @@ Read our [Getting Started Guide](docs/Getting-Started.md). If any step seems unc
 
 **Upcoming:**
 
-- [ ] Notificações push;
-    https://pushkin.io/
-    https://aerogear.org/push/
-    https://medium.com/rocketseat/push-notification-no-ios-e-android-com-react-native-66e956c89f5f
-- [ ] Encapsular serviço do Odoo;
-- [ ] Permitir o login em mais de um banco de dados;
-- [ ] Colocar informações de contas logadas em um Avatar c/ placeholder: https://react-native-training.github.io/react-native-elements/docs/avatar.html 
-- [ ] Corrigir o primeiro login;
-- [ ] Colocar widget de carregamento; https://github.com/airbnb/lottie-web
-- [ ] Translation;
 
 **Notes**
 
