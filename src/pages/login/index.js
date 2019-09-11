@@ -125,7 +125,7 @@ export default class SignInScreen extends React.Component {
           odoo_api.server_backend_url,
         );
         this.props.navigation.navigate('App', {
-          url: this.state.server + '/web',
+          url: odoo_api.server_backend_url,
         });
       } else {
         alert('Senha incorreta');

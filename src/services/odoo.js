@@ -92,16 +92,13 @@ class OdooApi {
   }
 
   get_user_image(user_id) {
-    console.log(user_id);
     return this.odoo
       .get('res.users', {
         ids: [user_id],
         fields: ['image_small'],
       })
       .then(response => {
-        console.log(response);
         if (response.success === true) {
-          console.log(response);
           return response.data[0].image_small;
         }
       })

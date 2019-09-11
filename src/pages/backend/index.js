@@ -49,7 +49,7 @@ export default class OdooBackend extends React.Component {
   _backendMessage(message) {
     switch (message) {
       case 'REACT_EXIT':
-        this.StartVibrationFunction();
+        // this.StartVibrationFunction();
         this.props.navigation.navigate('Home');
         break;
       case 'OTHER_MESSAGE':
