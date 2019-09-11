@@ -39,7 +39,7 @@ export default class SignInScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+      <KeyboardAvoidingView style={styles.containerView} behavior="padding" keyboardVerticalOffset={-400}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
             <View style={styles.loginFormView}>
