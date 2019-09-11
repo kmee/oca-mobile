@@ -1,5 +1,5 @@
 import React from 'react';
-import {APP_SITE, APP_SITE_TITLE} from 'react-native-dotenv';
+import { APP_SITE, APP_SITE_TITLE } from 'react-native-dotenv';
 import {
   AsyncStorage,
   Keyboard,
@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Linking,
 } from 'react-native';
-import {Button, Input} from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 import OdooApi from '../../services/odoo';
@@ -26,15 +26,15 @@ export default class SignInScreen extends React.Component {
   };
 
   handleServerChange = server => {
-    this.setState({server});
+    this.setState({ server });
   };
 
   handleUserChange = user => {
-    this.setState({user});
+    this.setState({ user });
   };
 
   handlePasswordChange = password => {
-    this.setState({password});
+    this.setState({ password });
   };
 
   render() {
