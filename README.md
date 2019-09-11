@@ -21,20 +21,22 @@ Read our [Getting Started Guide](docs/Getting-Started.md). If any step seems unc
 
 **Upcoming:**
 
-TODO: Notificações push;
+- [ ] Notificações push;
     https://pushkin.io/
     https://aerogear.org/push/
     https://medium.com/rocketseat/push-notification-no-ios-e-android-com-react-native-66e956c89f5f
-TODO: Encapsular serviço do Odoo;
-TODO: Permitir o login em mais de um banco de dados;
-TODO: Colocar informações de contas logadas em um Avatar c/ placeholder: https://react-native-training.github.io/react-native-elements/docs/avatar.html 
-TODO: Corrigir o primeiro login;
-TODO: Colocar widget de carregamento; https://github.com/airbnb/lottie-web
-TODO: Translation;
+- [ ] Encapsular serviço do Odoo;
+- [ ] Permitir o login em mais de um banco de dados;
+- [ ] Colocar informações de contas logadas em um Avatar c/ placeholder: https://react-native-training.github.io/react-native-elements/docs/avatar.html 
+- [ ] Corrigir o primeiro login;
+- [ ] Colocar widget de carregamento; https://github.com/airbnb/lottie-web
+- [ ] Translation;
 
-https://medium.com/@andrei.pfeiffer/reset-react-native-webview-to-initial-url-b57aad9442a0
-https://build.affinity.co/persisting-sessions-with-react-native-4c46af3bfd83
-https://stackoverflow.com/questions/49038243/react-native-webview-missing-session-cookies-on-ios
+**Notes**
+
+- https://medium.com/@andrei.pfeiffer/reset-react-native-webview-to-initial-url-b57aad9442a0
+- https://build.affinity.co/persisting-sessions-with-react-native-4c46af3bfd83
+- https://stackoverflow.com/questions/49038243/react-native-webview-missing-session-cookies-on-ios
 
 ## License
 
