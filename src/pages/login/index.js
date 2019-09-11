@@ -12,10 +12,7 @@ import {
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
-
-const url_api = require('url');
-
-import Odoo from 'react-native-odoo-promise-based';
+import OdooApi from '../../services/odoo';
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -102,62 +99,40 @@ export default class SignInScreen extends React.Component {
   }
 
   _signInAsync = async () => {
-    var url = url_api.parse(this.state.server);
-
-    const odoo = new Odoo({
-      host: url.hostname,
-      port: this.state.port,
-      username: this.state.user,
-      password: this.state.password,
-      protocol: url.protocol.replace(':', ''),
-    });
-
-    await odoo
-      .rpc_call('/web/database/list', {})
-      .then(response => {
-        if (response.success === true) {
-          this.state.database = response.data;
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-    if (this.state.database && this.state.database.length === 1) {
-      this.state.database = this.state.database[0];
-      odoo.database = this.state.database;
-    } else {
-      console.error('Not implemented');
-    }
-
-    await odoo
-      .connect()
-      .then(response => {
-        AsyncStorage.setItem('userToken', response.data.session_id);
-        AsyncStorage.setItem('user_display_name', response.data.name);
-        AsyncStorage.setItem('user_uid', response.data.uid);
-        AsyncStorage.setItem('database', response.data.db);
-        odoo
-          .get('res.users', {
-            ids: [response.data.uid],
-            fields: ['image_small'],
-          })
-          .then(response_image => {
-            AsyncStorage.setItem(
-              'image_small',
-              response_image.data[0].image_small,
-            );
-          })
-          .catch(e => {});
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-    await AsyncStorage.setItem(
-      'server_backend_url',
-      this.state.server + '/web',
+    var odoo_api = await new OdooApi(
+      this.state.server,
+      this.state.user,
+      this.state.password,
     );
-    this.props.navigation.navigate('App', {url: this.state.server + '/web'});
+    const database_list = await odoo_api.database_list;
+
+    if (database_list && database_list.length) {
+      if (database_list.length === 1) {
+        this.state.database = database_list[0];
+      } else {
+        console.error('Not implemented');
+      }
+      var connection = await odoo_api.connect(this.state.database);
+      if (typeof connection.uid === 'number') {
+        await AsyncStorage.setItem('userToken', connection.session_id);
+        await AsyncStorage.setItem('user_display_name', connection.name);
+        await AsyncStorage.setItem('user_uid', connection.uid.toString());
+        await AsyncStorage.setItem('database', connection.db);
+        const imagem = await odoo_api.get_user_image(connection.uid);
+        await AsyncStorage.setItem('image_small', imagem);
+        await AsyncStorage.setItem(
+          'server_backend_url',
+          odoo_api.server_backend_url,
+        );
+        this.props.navigation.navigate('App', {
+          url: this.state.server + '/web',
+        });
+      } else {
+        alert('Senha incorreta');
+      }
+    } else {
+      // empty
+      alert('No database');
+    }
   };
 }
