@@ -1,5 +1,8 @@
 # OSX
 #
+
+android/gradle.properties
+
 .DS_Store
 
 # Xcode
