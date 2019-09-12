@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ActivityIndicator, AsyncStorage, Vibration } from 'react-native';
-import { WebView } from 'react-native-webview';
+import {ActivityIndicator, AsyncStorage, Vibration} from 'react-native';
+import {WebView} from 'react-native-webview';
 
 import styles from './style';
 
@@ -35,18 +35,23 @@ export default class OdooBackend extends React.Component {
   };
 
   async componentDidMount() {
-    AsyncStorage.getItem('last_url').then(last_url =>{
-      if (last_url === 'about:blank' || typeof last_url === 'undefined' || last_url == null) {
-        AsyncStorage.getItem('server_backend_url').then(url => {
-          if(url) {
-            this.setState({ url: url });
-          }
-          console.log('1');
-        }).catch(e => {
-          console.log(e);
-        });
+    AsyncStorage.getItem('last_url').then(last_url => {
+      if (
+        last_url === 'about:blank' ||
+        typeof last_url === 'undefined' ||
+        last_url == null
+      ) {
+        AsyncStorage.getItem('server_backend_url')
+          .then(url => {
+            if (url) {
+              this.setState({url: url});
+            }
+          })
+          .catch(e => {
+            console.log(e);
+          });
       } else {
-        this.setState({ url: last_url });
+        this.setState({url: last_url});
       }
     });
   }
@@ -91,7 +96,7 @@ export default class OdooBackend extends React.Component {
 
     return (
       <WebView
-        source={{ uri: this.state.url }}
+        source={{uri: this.state.url}}
         onNavigationStateChange={this._onNavigationStateChange.bind(this)}
         javaScriptEnabled={true}
         domStorageEnabled={true}
