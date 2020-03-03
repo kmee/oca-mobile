@@ -7,11 +7,11 @@ export const DatabaseModel = types
   .model("Database")
   .props({
     id: types.identifier,
-    server_url: types.maybe(types.string),
+    host: types.maybe(types.string),
     database: types.maybe(types.string),
-    version: types.maybe(types.string),
-    user_name: types.maybe(types.string),
+    username: types.maybe(types.string),
     token: types.maybe(types.string),
+    protocol: types.maybe(types.string),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
