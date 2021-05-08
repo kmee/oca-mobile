@@ -14,7 +14,7 @@
     "react-native-gesture-handler": "^1.4.1",
     "react-native-odoo-promise-based": "^0.6.4",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.0.4",
+    "react-native-webview": "^11.0.0",
     "react-navigation": "^4.0.0",
     "react-navigation-stack": "^1.5.1",
     "url": "^0.11.0"
