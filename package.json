@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "react": "16.8.6",
-    "react-native": "0.60.5",
+    "react-native": "0.62.3",
     "react-native-elements": "^1.2.0",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-odoo-promise-based": "^0.6.4",
