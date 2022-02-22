@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {AsyncStorage, Image, View} from 'react-native';
+import {Image, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button, Card, Icon, Text} from 'react-native-elements';
 
 import styles from './style';
@@ -18,8 +20,7 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
-
-  async componentDidMount() {
+  async _loadingInfo() {
     var server = await AsyncStorage.getItem('server_backend_url');
     var user_name = await AsyncStorage.getItem('user_display_name');
     var image_small = await AsyncStorage.getItem('image_small');
@@ -30,6 +31,10 @@ export default class HomeScreen extends React.Component {
       db: db,
       image_small: image_small,
     });
+  }
+
+  async componentDidMount() {
+    this._loadingInfo();
   }
 
   render() {

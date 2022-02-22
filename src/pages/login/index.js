@@ -1,7 +1,7 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import { APP_SITE, APP_SITE_TITLE } from 'react-native-dotenv';
+import {APP_SITE, APP_SITE_TITLE} from 'react-native-dotenv';
 import {
-  AsyncStorage,
   Keyboard,
   Image,
   View,
@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   Linking,
 } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 import OdooApi from '../../services/odoo';
@@ -25,21 +26,24 @@ export default class SignInScreen extends React.Component {
     protocol: 'https',
   };
 
-  handleServerChange = server => {
-    this.setState({ server });
+  handleServerChange = (server) => {
+    this.setState({server});
   };
 
-  handleUserChange = user => {
-    this.setState({ user });
+  handleUserChange = (user) => {
+    this.setState({user});
   };
 
-  handlePasswordChange = password => {
-    this.setState({ password });
+  handlePasswordChange = (password) => {
+    this.setState({password});
   };
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.containerView} behavior="padding" keyboardVerticalOffset={-400}>
+      <KeyboardAvoidingView
+        style={styles.containerView}
+        behavior="padding"
+        keyboardVerticalOffset={-400}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
             <View style={styles.loginFormView}>
@@ -105,7 +109,7 @@ export default class SignInScreen extends React.Component {
       this.state.password,
     );
     const database_list = await odoo_api.database_list;
-
+    console.log(odoo_api, 'api');
     if (database_list && database_list.length) {
       if (database_list.length === 1) {
         this.state.database = database_list[0];
@@ -113,18 +117,20 @@ export default class SignInScreen extends React.Component {
         console.error('Not implemented');
       }
       var connection = await odoo_api.connect(this.state.database);
+      console.log(connection);
+
       if (typeof connection.uid === 'number') {
-        await AsyncStorage.setItem('userToken', connection.session_id);
+        // await AsyncStorage.setItem('userToken', connection.session_id);
         await AsyncStorage.setItem('user_display_name', connection.name);
         await AsyncStorage.setItem('user_uid', connection.uid.toString());
         await AsyncStorage.setItem('database', connection.db);
-        const imagem = await odoo_api.get_user_image(connection.uid);
-        await AsyncStorage.setItem('image_small', imagem);
+        // const imagem = await odoo_api.get_user_image(connection.uid);
+        // await AsyncStorage.setItem('image_small', imagem);
         await AsyncStorage.setItem(
           'server_backend_url',
           odoo_api.server_backend_url,
         );
-        this.props.navigation.navigate('App', {
+        this.props.navigation.navigate('Home', {
           url: odoo_api.server_backend_url,
         });
       } else {

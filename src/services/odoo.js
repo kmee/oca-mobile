@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Odoo from 'react-native-odoo-promise-based';
 const url_api = require('url');
 
@@ -43,7 +44,7 @@ class OdooApi {
 
   _parseURL() {
     if (!this.complete_url.includes('http')) {
-      this.complete_url = "https://" + this.complete_url;
+      this.complete_url = 'https://' + this.complete_url;
     }
     var url = url_api.parse(this.complete_url);
     this.hostname = url.hostname;
@@ -70,12 +71,12 @@ class OdooApi {
   _getDatabases() {
     return this.odoo
       .rpc_call('/web/database/list', {})
-      .then(response => {
+      .then((response) => {
         if (response.success === true) {
           return response.data;
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   }
@@ -84,12 +85,12 @@ class OdooApi {
     this.odoo.database = database;
     return this.odoo
       .connect()
-      .then(response => {
+      .then((response) => {
         if (response.success === true) {
           return response.data;
         }
       })
-      .catch(e => {
+      .catch((e) => {
         return false;
       });
   }
@@ -100,12 +101,12 @@ class OdooApi {
         ids: [user_id],
         fields: ['image_small'],
       })
-      .then(response => {
+      .then((response) => {
         if (response.success === true) {
           return response.data[0].image_small;
         }
       })
-      .catch(e => {
+      .catch((e) => {
         return false;
       });
   }
