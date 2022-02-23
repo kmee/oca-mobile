@@ -22,7 +22,7 @@ export default class OdooBackend extends React.Component {
 
   StartVibrationFunction = () => {
     // Device Will Vibrate for 10 seconds.
-    // Vibration.vibrate(DURATION);
+    Vibration.vibrate(DURATION);
 
     // Android Device Will Vibrate in pattern : Wait 1sec -> vibrate 2sec -> wait 3sec.
     // iOS Device Will Vibrate in pattern : Wait 1sec -> Vibrate -> wait 2sec -> Vibrate -> wait 3sec -> Vibrate
