@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
-import {ActivityIndicator, AsyncStorage, Vibration} from 'react-native';
+import {ActivityIndicator, Vibration} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
 
 import styles from './style';
@@ -20,7 +22,7 @@ export default class OdooBackend extends React.Component {
 
   StartVibrationFunction = () => {
     // Device Will Vibrate for 10 seconds.
-    // Vibration.vibrate(DURATION);
+    Vibration.vibrate(DURATION);
 
     // Android Device Will Vibrate in pattern : Wait 1sec -> vibrate 2sec -> wait 3sec.
     // iOS Device Will Vibrate in pattern : Wait 1sec -> Vibrate -> wait 2sec -> Vibrate -> wait 3sec -> Vibrate
@@ -35,19 +37,19 @@ export default class OdooBackend extends React.Component {
   };
 
   async componentDidMount() {
-    AsyncStorage.getItem('last_url').then(last_url => {
+    AsyncStorage.getItem('last_url').then((last_url) => {
       if (
         last_url === 'about:blank' ||
         typeof last_url === 'undefined' ||
         last_url == null
       ) {
         AsyncStorage.getItem('server_backend_url')
-          .then(url => {
+          .then((url) => {
             if (url) {
               this.setState({url: url});
             }
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
           });
       } else {
@@ -63,7 +65,7 @@ export default class OdooBackend extends React.Component {
   _backendMessage(message) {
     switch (message) {
       case 'REACT_EXIT':
-        // this.StartVibrationFunction();
+        this.StartVibrationFunction();
         this.props.navigation.navigate('Home');
         break;
       case 'OTHER_MESSAGE':
@@ -104,7 +106,7 @@ export default class OdooBackend extends React.Component {
         renderLoading={this.ActivityIndicatorLoadingView}
         injectedJavaScript={runFirst}
         // injectedJavaScript={this.state.cookie}
-        onMessage={event => {
+        onMessage={(event) => {
           this._backendMessage(event.nativeEvent.data);
         }}
       />
