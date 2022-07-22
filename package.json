@@ -3,33 +3,37 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native start",
+    "start": "expo start",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "16.8.6",
-    "react-native": "0.60.5",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-community/masked-view": "^0.1.11",
+    "expo": "^44.0.6",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
     "react-native-elements": "^1.2.0",
-    "react-native-gesture-handler": "^1.4.1",
+    "react-native-gesture-handler": "~2.1.0",
     "react-native-odoo-promise-based": "^0.6.4",
-    "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.0.4",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-webview": "11.15.0",
     "react-navigation": "^4.0.0",
     "react-navigation-stack": "^1.5.1",
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/runtime": "^7.6.0",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.3.0",
-    "jest": "^24.9.0",
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "7.14.0",
+    "jest": "^26.6.3",
     "jetifier": "^1.6.4",
-    "metro-react-native-babel-preset": "^0.56.0",
+    "metro-react-native-babel-preset": "^0.64.0",
     "react-native-dotenv": "^0.2.0",
-    "react-test-renderer": "16.8.6"
+    "react-test-renderer": "17.0.1"
   },
   "jest": {
     "preset": "react-native"

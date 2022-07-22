@@ -1,4 +1,7 @@
 {
-  "name": "oca",
-  "displayName": "oca"
+  "expo": {
+    "name": "oca",
+    "version": "0.0.1",
+    "slug": "oca",
+  }
 }

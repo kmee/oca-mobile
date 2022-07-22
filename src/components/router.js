@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -7,7 +8,7 @@ import OdooBackend from '../pages/backend';
 import AuthLoadingScreen from './auth';
 
 const AuthStack = createStackNavigator({SignIn: SignInScreen});
-const AppStack = createStackNavigator({Other: OdooBackend, Home: HomeScreen});
+const AppStack = createStackNavigator({Home: HomeScreen, Other: OdooBackend});
 
 export const AppNavigator = createSwitchNavigator(
   {
