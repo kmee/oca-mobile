@@ -43,7 +43,7 @@ class OdooApi {
 
   _parseURL() {
     if (!this.complete_url.includes('http')) {
-      this.complete_url = "https://" + this.complete_url;
+      this.complete_url = 'https://' + this.complete_url;
     }
     var url = url_api.parse(this.complete_url);
     this.hostname = url.hostname;

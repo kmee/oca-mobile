@@ -1,7 +1,6 @@
 import React from 'react';
-import { APP_SITE, APP_SITE_TITLE } from 'react-native-dotenv';
+import {APP_SITE, APP_SITE_TITLE} from '@env';
 import {
-  AsyncStorage,
   Keyboard,
   Image,
   View,
@@ -9,8 +8,10 @@ import {
   KeyboardAvoidingView,
   Linking,
 } from 'react-native';
-import { Button, Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {Button, Input} from 'react-native-elements';
+//import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 import OdooApi from '../../services/odoo';
 
@@ -26,20 +27,23 @@ export default class SignInScreen extends React.Component {
   };
 
   handleServerChange = server => {
-    this.setState({ server });
+    this.setState({server});
   };
 
   handleUserChange = user => {
-    this.setState({ user });
+    this.setState({user});
   };
 
   handlePasswordChange = password => {
-    this.setState({ password });
+    this.setState({password});
   };
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.containerView} behavior="padding" keyboardVerticalOffset={-400}>
+      <KeyboardAvoidingView
+        style={styles.containerView}
+        behavior="padding"
+        keyboardVerticalOffset={-400}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
             <View style={styles.loginFormView}>
@@ -54,7 +58,7 @@ export default class SignInScreen extends React.Component {
                 value={this.state.server}
                 onChangeText={this.handleServerChange}
                 style={styles.loginFormTextInput}
-                leftIcon={<Icon name="home" style={styles.icon} />}
+                //                leftIcon={<Icon name="home" style={styles.icon} />}
               />
               <Input
                 placeholder="Username"
@@ -62,7 +66,7 @@ export default class SignInScreen extends React.Component {
                 value={this.state.user}
                 onChangeText={this.handleUserChange}
                 style={styles.loginFormTextInput}
-                leftIcon={<Icon name="user" style={styles.icon} />}
+                //                leftIcon={<Icon name="user" style={styles.icon} />}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
@@ -75,7 +79,7 @@ export default class SignInScreen extends React.Component {
                 secureTextEntry={true}
                 autoCapitalize="none"
                 autoCorrect={false}
-                leftIcon={<Icon name="key" style={styles.icon} />}
+                //                leftIcon={<Icon name="key" style={styles.icon} />}
               />
               <Button
                 buttonStyle={styles.loginButton}
@@ -104,6 +108,7 @@ export default class SignInScreen extends React.Component {
       this.state.user,
       this.state.password,
     );
+
     const database_list = await odoo_api.database_list;
 
     if (database_list && database_list.length) {
