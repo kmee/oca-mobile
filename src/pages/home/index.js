@@ -1,5 +1,7 @@
 import React from 'react';
-import {AsyncStorage, Image, View} from 'react-native';
+import {Image, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {Button, Card, Icon, Text} from 'react-native-elements';
 
 import styles from './style';

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {ActivityIndicator, AsyncStorage, Vibration} from 'react-native';
+import {ActivityIndicator, Vibration} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
 
 import styles from './style';
