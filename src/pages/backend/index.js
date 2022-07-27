@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {ActivityIndicator, Vibration} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
 
 import styles from './style';
-
-const PATTERN = [1000, 2000, 3000, 4000];
+import {useOdooContext} from '../../context/OdooProvider';
 
 function ActivityIndicatorLoadingView() {
   return (
@@ -19,45 +18,26 @@ function ActivityIndicatorLoadingView() {
 }
 
 export default function OdooBackend({navigation}) {
-  const [url, setUrl] = React.useState({});
-
-  // const StartVibrationFunction = () => {
-  //   // Device Will Vibrate for 10 seconds.
-  //   // Vibration.vibrate(DURATION);
-
-  //   // Android Device Will Vibrate in pattern : Wait 1sec -> vibrate 2sec -> wait 3sec.
-  //   // iOS Device Will Vibrate in pattern : Wait 1sec -> Vibrate -> wait 2sec -> Vibrate -> wait 3sec -> Vibrate
-
-  //   Vibration.vibrate(PATTERN);
-
-  //   // Android Device Will Vibrate in above pattern Infinite Time.
-  //   // iOS Device Will Vibrate in above pattern Infinite Time.
-
-  //   // Vibration.vibrate(PATTERN, true)
-  //   // Vibration.cancel();
-  // };
+  const [url, setUrl] = React.useState('');
+  const {session} = useOdooContext();
 
   React.useEffect(() => {
-    AsyncStorage.getItem('last_url').then(last_url => {
-      if (
-        last_url === 'about:blank' ||
-        typeof last_url === 'undefined' ||
-        last_url == null
-      ) {
-        AsyncStorage.getItem('server_backend_url')
-          .then(uri => {
-            if (uri) {
-              setUrl(uri);
-            }
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      } else {
-        setUrl(last_url);
-      }
-    });
-  }, []);
+    try {
+      AsyncStorage.getItem('last_url').then(last_url => {
+        if (
+          last_url === 'about:blank' ||
+          typeof last_url === 'undefined' ||
+          last_url == null
+        ) {
+          setUrl(session.backend_url);
+        } else {
+          setUrl(last_url);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [session]);
 
   const onNavigationStateChange = webViewState => {
     AsyncStorage.setItem('last_url', webViewState.url);
@@ -66,7 +46,6 @@ export default function OdooBackend({navigation}) {
   const handleBackendMessage = message => {
     switch (message) {
       case 'REACT_EXIT':
-        // this.StartVibrationFunction();
         navigation.navigate('Home');
         break;
       case 'OTHER_MESSAGE':
@@ -86,7 +65,7 @@ export default function OdooBackend({navigation}) {
 
   return (
     <WebView
-      source={url}
+      source={{uri: url}}
       onNavigationStateChange={onNavigationStateChange}
       javaScriptEnabled={true}
       domStorageEnabled={true}

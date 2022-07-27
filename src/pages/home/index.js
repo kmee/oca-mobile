@@ -5,14 +5,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button, Card, Icon, Text} from 'react-native-elements';
 
 import styles from './style';
+import {useOdooContext} from '../../context/OdooProvider';
 
 export default function HomeScreen({navigation}) {
-  const [state, setState] = React.useState({
-    user_name: ' ',
-    server: ' ',
-    db: ' ',
-    image_small: '',
-  });
+  const {session} = useOdooContext();
+  const state = {
+    user_name: session.name,
+    server: session.backend_url,
+    db: session.db,
+    image_small: session.avatar,
+  };
 
   const showMoreApp = () => {
     navigation.navigate('Backend');
@@ -23,23 +25,6 @@ export default function HomeScreen({navigation}) {
     navigation.navigate('SignIn');
   };
 
-  React.useEffect(() => {
-    const bootstrap = async () => {
-      const server = await AsyncStorage.getItem('server_backend_url');
-      const user_name = await AsyncStorage.getItem('user_display_name');
-      const image_small = await AsyncStorage.getItem('image_small');
-      const db = await AsyncStorage.getItem('database');
-
-      setState({
-        server: server,
-        user_name: user_name,
-        db: db,
-        image_small: image_small,
-      });
-    };
-    bootstrap();
-  }, []);
-
   return (
     <View style={styles.container}>
       <Card title={state.user_name}>
@@ -47,7 +32,7 @@ export default function HomeScreen({navigation}) {
           style={styles.image_badge}
           source={{uri: `data:image;base64,${state.image_small}`}}
         />
-        <Text style={styles.text_badge}>{state.server}</Text>
+        <Text style={styles.text_badge}>URL: {state.server}</Text>
         <Text style={styles.text_badge}>Database: {state.db}</Text>
         <Button
           title="Backend"
