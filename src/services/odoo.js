@@ -72,6 +72,7 @@ class OdooApi {
       .rpc_call('/web/database/list', {})
       .then(response => {
         if (response.success === true) {
+          console.log(response.data);
           return response.data;
         }
       })
