@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Linking,
+  Alert,
 } from 'react-native';
 
 import {Button, Input} from 'react-native-elements';
@@ -15,13 +16,16 @@ import styles from './style';
 
 import {useOdooContext} from '../../context/OdooProvider';
 
-export default function SignInScreen({navigation}) {
+export default function SignInScreen() {
   const {signIn} = useOdooContext();
 
   const [state, setState] = React.useState({
     port: 443,
     error: '',
     protocol: 'https',
+    server: 'https://tgi.kmee.com.br',
+    user: 'arc.admin',
+    password: 'tg1k&m2021',
   });
 
   const handleServerChange = server => {
@@ -38,7 +42,12 @@ export default function SignInScreen({navigation}) {
 
   const handleSignIn = async () => {
     const {server, user, password} = state;
-    await signIn({server, username: user, password});
+    try {
+      await signIn({server, username: user, password});
+    } catch (error) {
+      Alert.alert('An unknown error occurred', error.message);
+      console.error(error);
+    }
   };
 
   return (
