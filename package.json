@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.7",
+    "@react-native-cookies/cookies": "^6.2.1",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.7.0",
+    "odoo-await": "^3.3.0",
     "react": "18.0.0",
     "react-native": "0.69.3",
     "react-native-dotenv": "^3.3.1",

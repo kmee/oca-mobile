@@ -25,91 +25,62 @@ const url_api = require('url');
 //   // }
 // }
 
-class OdooApi {
-  constructor(url, login, password) {
-    this.complete_url = url;
-    this.login = login;
-    this.password = password;
-    this._parseURL();
-    this.odoo = new Odoo({
-      host: this.hostname,
-      port: this.port,
-      username: this.login,
-      password: this.password,
-      protocol: this.protocol,
-    });
-    this.database_list = [];
+const parseUrl = url => {
+  if (!url.includes('http')) {
+    url = 'https://' + url;
   }
+  let urlParsed = url_api.parse(url);
+  const hostname = urlParsed.hostname;
+  const protocol = urlParsed.protocol.replace(':', '');
 
-  _parseURL() {
-    if (!this.complete_url.includes('http')) {
-      this.complete_url = 'https://' + this.complete_url;
+  urlParsed.port = protocol === 'https' ? 443 : 80;
+  const completeUrl = urlParsed.href.replace(urlParsed.path, '/');
+  const backendUrl = completeUrl + 'web';
+
+  return {
+    hostname,
+    port: urlParsed.port,
+    protocol,
+    completeUrl,
+    backendUrl,
+  };
+};
+
+const createOdooService = (url, user, password) => {
+  const {hostname, port, protocol, backendUrl, completeUrl} = parseUrl(url);
+
+  const odoo = new Odoo({
+    host: hostname,
+    port: port,
+    username: user,
+    password: password,
+    protocol: protocol,
+  });
+
+  const getDatabases = async () => {
+    try {
+      const res = await odoo.rpc_call('/web/database/list', {});
+      return res.data;
+    } catch (error) {
+      console.log(error);
     }
-    var url = url_api.parse(this.complete_url);
-    this.hostname = url.hostname;
+  };
 
-    this.protocol = url.protocol.replace(':', '');
-
-    if (url.port === null) {
-      if (this.protocol === 'https') {
-        this.port = 443;
-      } else if (this.protocol === 'http') {
-        this.port = 80;
-      }
-    } else {
-      this.port = url.port;
+  const connect = async db => {
+    odoo.database = db;
+    try {
+      const res = await odoo.connect();
+      return res.data;
+    } catch (error) {
+      console.error(error);
     }
-    this.server_complete_url = url.href.replace(url.path, '/');
-    this.server_backend_url = this.server_complete_url + 'web';
-  }
+  };
 
-  get database_list() {
-    return this._getDatabases();
-  }
+  return {
+    getDatabases,
+    connect,
+    ...parseUrl(url),
+  };
+};
 
-  _getDatabases() {
-    return this.odoo
-      .rpc_call('/web/database/list', {})
-      .then(response => {
-        if (response.success === true) {
-          console.log(response.data);
-          return response.data;
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  connect(database) {
-    this.odoo.database = database;
-    return this.odoo
-      .connect()
-      .then(response => {
-        if (response.success === true) {
-          return response.data;
-        }
-      })
-      .catch(e => {
-        return false;
-      });
-  }
-
-  get_user_image(user_id) {
-    return this.odoo
-      .get('res.users', {
-        ids: [user_id],
-        fields: ['image_small'],
-      })
-      .then(response => {
-        if (response.success === true) {
-          return response.data[0].image_small;
-        }
-      })
-      .catch(e => {
-        return false;
-      });
-  }
-}
-
-export default OdooApi;
+export default createOdooService;

@@ -6,6 +6,12 @@ import {WebView} from 'react-native-webview';
 
 import styles from './style';
 import {useOdooContext} from '../../context/OdooProvider';
+import CookieManager from '@react-native-cookies/cookies';
+
+const CHECK_COOKIE = `
+  ReactNativeWebView.postMessage("Cookie: " + document.cookie);
+  true;
+`;
 
 function ActivityIndicatorLoadingView() {
   return (
@@ -18,29 +24,26 @@ function ActivityIndicatorLoadingView() {
 }
 
 export default function OdooBackend({navigation}) {
-  const [url, setUrl] = React.useState('');
   const {session} = useOdooContext();
-
-  React.useEffect(() => {
-    try {
-      AsyncStorage.getItem('last_url').then(last_url => {
-        if (
-          last_url === 'about:blank' ||
-          typeof last_url === 'undefined' ||
-          last_url == null
-        ) {
-          setUrl(session.backend_url);
-        } else {
-          setUrl(last_url);
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, [session]);
+  const webViewRef = React.useRef(null);
 
   const onNavigationStateChange = webViewState => {
+    console.log({
+      current: webViewState.url,
+      backendUrl: session.backend_url,
+    });
+    if (webViewRef.current) {
+      webViewRef.current.injectJavaScript(CHECK_COOKIE);
+    }
     AsyncStorage.setItem('last_url', webViewState.url);
+  };
+
+  const onMessage = async event => {
+    const {data} = event.nativeEvent;
+    if (data.includes('Cookie:')) {
+      console.log(session);
+      await CookieManager.get(session.backend_url, true);
+    }
   };
 
   const handleBackendMessage = message => {
@@ -65,15 +68,20 @@ export default function OdooBackend({navigation}) {
 
   return (
     <WebView
-      source={{uri: url}}
+      source={{
+        uri: session.backend_url,
+      }}
+      ref={webViewRef}
       onNavigationStateChange={onNavigationStateChange}
       javaScriptEnabled={true}
       domStorageEnabled={true}
+      sharedCookiesEnabled={true}
       startInLoadingState={true}
       renderLoading={ActivityIndicatorLoadingView}
       injectedJavaScript={runFirst}
       // injectedJavaScript={this.state.cookie}
       onMessage={event => {
+        onMessage(event);
         handleBackendMessage(event.nativeEvent.data);
       }}
     />
