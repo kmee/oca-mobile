@@ -3,6 +3,8 @@ import * as React from 'react';
 import {login} from './helpers';
 import {useNavigation} from '@react-navigation/native';
 import AuthLoadingScreen from '../../components/auth';
+import {Alert} from 'react-native';
+import CookieManager from '@react-native-cookies/cookies';
 
 const OdooContext = React.createContext({});
 
@@ -31,10 +33,21 @@ export default function OdooProvider({children}) {
 
   const signIn = React.useCallback(
     async ({server, username, password}) => {
-      const connection = await login({server, username, password});
-      if (connection) {
-        setSession(connection);
-        navigation.navigate('Home', {url: connection.backend_url});
+      try {
+        const connection = await login({server, username, password});
+        if (connection) {
+          setSession(connection);
+          await CookieManager.set(connection.backend_url, {
+            name: 'session_id',
+            value: connection.session_id,
+            domain: connection.hostname,
+            path: '/',
+          });
+          navigation.navigate('Home', {url: connection.backend_url});
+        }
+      } catch (error) {
+        Alert.alert('An unknown error occurred', error.message);
+        console.error(error);
       }
     },
     [navigation],
