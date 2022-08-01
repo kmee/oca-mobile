@@ -1,21 +1,23 @@
-import {createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import * as React from 'react';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SignInScreen from '../pages/login';
 import HomeScreen from '../pages/home';
 import OdooBackend from '../pages/backend';
-import AuthLoadingScreen from './auth';
 
-const AuthStack = createStackNavigator({SignIn: SignInScreen});
-const AppStack = createStackNavigator({Other: OdooBackend, Home: HomeScreen});
+const Stack = createNativeStackNavigator();
 
-export const AppNavigator = createSwitchNavigator(
-  {
-    AuthLoading: AuthLoadingScreen,
-    App: AppStack,
-    Auth: AuthStack,
-  },
-  {
-    initialRouteName: 'AuthLoading',
-  },
-);
+export const AppNavigator = () => {
+  const options = {
+    headerShown: false,
+  };
+
+  return (
+    <Stack.Navigator screenOptions={options} initialRouteName="SignIn">
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Backend" component={OdooBackend} />
+    </Stack.Navigator>
+  );
+};
