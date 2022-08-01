@@ -23,6 +23,9 @@ export default function SignInScreen() {
     port: 443,
     error: '',
     protocol: 'https',
+    server: 'https://tgi.kmee.com.br',
+    user: 'arc.admin',
+    password: 'tg1k&m2021',
   });
 
   const handleServerChange = server => {
