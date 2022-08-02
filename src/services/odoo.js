@@ -79,6 +79,8 @@ const createOdooService = (url, user, password) => {
   return {
     getDatabases,
     connect,
+    backend_url: backendUrl,
+    complete_url: completeUrl,
     ...parseUrl(url),
   };
 };

@@ -37,12 +37,6 @@ export default function OdooProvider({children}) {
         const connection = await login({server, username, password});
         if (connection) {
           setSession(connection);
-          await CookieManager.set(connection.backend_url, {
-            name: 'session_id',
-            value: connection.session_id,
-            domain: connection.hostname,
-            path: '/',
-          });
           navigation.navigate('Home', {url: connection.backend_url});
         }
       } catch (error) {

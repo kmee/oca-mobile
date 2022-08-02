@@ -28,10 +28,6 @@ export default function OdooBackend({navigation}) {
   const webViewRef = React.useRef(null);
 
   const onNavigationStateChange = webViewState => {
-    console.log({
-      current: webViewState.url,
-      backendUrl: session.backend_url,
-    });
     if (webViewRef.current) {
       webViewRef.current.injectJavaScript(CHECK_COOKIE);
     }
@@ -41,7 +37,6 @@ export default function OdooBackend({navigation}) {
   const onMessage = async event => {
     const {data} = event.nativeEvent;
     if (data.includes('Cookie:')) {
-      console.log(session);
       await CookieManager.get(session.backend_url, true);
     }
   };
@@ -76,6 +71,7 @@ export default function OdooBackend({navigation}) {
       javaScriptEnabled={true}
       domStorageEnabled={true}
       sharedCookiesEnabled={true}
+      thirdPartyCookiesEnabled={true}
       startInLoadingState={true}
       renderLoading={ActivityIndicatorLoadingView}
       injectedJavaScript={runFirst}
